@@ -46,7 +46,7 @@ None at the MCP layer. Delegation is whatever the on-chain passkey smart wallet 
 - Licence: ISC (fork file has no LICENSE file; `package.json` declares `"license": "ISC"`) [S7].
 - Source available: yes.
 - Last meaningful commit on the fork: 2025-03-31 (`44c42e4`, README edit) [S1]. Last code commit: 2025-03-28 (`Hanldes proper invalid auth error`) [S1].
-- Fork stars: 0 / watchers 0 / forks 0 / contributors 1 (Jose Toscano) [S8]. Upstream `JoseCToscano/stellar-mcp` has 5 stars, 4 forks, 2 contributors (Blockchain-Oracle 108, JoseCToscano 17), and has since evolved into a larger code-generator project unrelated to the original simple MCP server [S9].
+- Fork stars: 0 / watchers 0 / forks 0 / contributors 1 (`JoseCToscano`) [S8]. Upstream `JoseCToscano/stellar-mcp` has 5 stars, 4 forks, 2 contributors (`Blockchain-Oracle` 108, `JoseCToscano` 17), and has since evolved into a larger code-generator project unrelated to the original simple MCP server [S9].
 - Known production users: none found.
 - Commercial backing: none. Solo developer.
 - Ecosystem traction: Smithery listing and UBOS directory [S10, S11]; the simpler fork version is cited; upstream has diverged.

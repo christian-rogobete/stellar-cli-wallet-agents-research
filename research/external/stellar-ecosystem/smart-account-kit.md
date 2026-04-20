@@ -6,7 +6,7 @@
 **ID:** smart-account-kit
 **Category:** crypto-stellar
 
-**Scope note.** Two SDKs are in active development against OpenZeppelin's `stellar-accounts` v0.7.1 on-chain contracts: the TypeScript **Smart Account Kit (SAK)** by kalepail (Tyler Schultz) at `github.com/kalepail/smart-account-kit` and the Kotlin-Multiplatform **OZSmartAccountKit** maintained by Soneso as part of `kmp-stellar-sdk`. Both target the same on-chain contract, expose the same manager model, and produce interoperable contract addresses (subject to byte-identical credential-ID encoding across passkey-provider outputs — §11). This file covers both as "two implementations of one pattern" and calls out platform-specific differences where they matter.
+**Scope note.** Two SDKs are in active development against OpenZeppelin's `stellar-accounts` v0.7.1 on-chain contracts: the TypeScript **Smart Account Kit (SAK)** by kalepail at `github.com/kalepail/smart-account-kit` and the Kotlin-Multiplatform **OZSmartAccountKit** maintained by Soneso as part of `kmp-stellar-sdk`. Both target the same on-chain contract, expose the same manager model, and produce interoperable contract addresses (subject to byte-identical credential-ID encoding across passkey-provider outputs — §11). This file covers both as "two implementations of one pattern" and calls out platform-specific differences where they matter.
 
 Commit pins: SAK at `e731a3d` (version 0.3.0); KMP at `c7bfedb`. Short names `smart-account-kit` and `kmp-stellar-sdk` per `SOURCES.md`.
 

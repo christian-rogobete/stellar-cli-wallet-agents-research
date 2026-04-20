@@ -70,7 +70,7 @@ TWAK has no delegation primitive. There is one key (or one WalletConnect session
 - **Last meaningful commit:** `tw-agent-skills` tip `6f8671f` committed 2026-04-15. `@trustwallet/cli@0.9.0` published 2026-04-15.
 - **GitHub stars:** n/a for `twak`; `tw-agent-skills` is <1 month old at research time.
 - **Known production users:** Trust Wallet mobile app (~220M installs); integrations advertised with Claude Code, Cursor, Windsurf, Codex, Copilot, Cline, opencode, roo [S1 `README.md:17-23`].
-- **Commercial backing:** Trust Wallet (Bitkeep Global Pte Ltd), CZ-owned; well-funded incumbent.
+- **Commercial backing:** Trust Wallet (Bitkeep Global Pte Ltd); well-funded incumbent.
 - **Telemetry:** Amplitude analytics bundled; off by default, opt-in via `twak telemetry --opt-in` or `TWAK_TELEMETRY` env var [S5 `dist/index.js` — `registerTelemetryCommand`].
 
 ## 8. Non-negotiable check
