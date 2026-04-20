@@ -12,7 +12,7 @@ The material is also dedicated to the public domain under CC0 1.0 and available 
 
 ## About this analysis
 
-The argued recommendation in [`analysis/10-recommendation.md`](analysis/10-recommendation.md) is the operator's researched opinion, not an independent panel finding. The analysis was prepared with research and analysis assistance from Claude Code Opus 4.7. Competing analyses and counter-arguments via pull request are actively invited.
+The argued recommendation in `analysis/10-recommendation.md` is the operator's researched opinion, not an independent panel finding. The analysis was prepared with research and analysis assistance from Claude Code Opus 4.7. Competing analyses and counter-arguments via pull request are actively invited.
 
 ## What is here
 
@@ -34,7 +34,7 @@ Each research stream uses a shared evaluation template — `research/external/_t
 
 Research files (`research/external/`, `research/stellar-capabilities/`) are structured around that neutral template and are meant to be reusable as a baseline regardless of architecture. The analysis layer (`analysis/`) is argued: it draws conclusions from the research under a stated set of non-negotiables and weightings.
 
-Start at `analysis/00-context.md` for orientation. The short path for a delegate is:
+Start at [`analysis/00-context.md`](analysis/00-context.md) for orientation. The short path for a delegate is:
 
 1. `analysis/00-context.md` — non-negotiables N1-N6; adjacent SDF + OpenZeppelin collaboration tracks; Protocol 26 tracking.
 2. `analysis/01-actor-model.md` — seven actors (A1-A7) the wallet serves.
@@ -45,7 +45,7 @@ Delegates who want the full record read `00` through `10` in order.
 
 ## Recommendation
 
-The argued recommendation in [`analysis/10-recommendation.md`](analysis/10-recommendation.md) is **option A: CLI-first with agent affordances**, with the honest counter-case for the schema-first option B addressed directly rather than dismissed. The decision turns on team-scale fit, ecosystem continuity, and the Kraken-pattern precedent for process-enforced schema discipline at comparable scale. It is a researched recommendation, not a consensus finding; §3 of `10-recommendation.md` states the strongest case for the alternative, and §5 names the conditions under which the recommendation should be revisited.
+The argued recommendation in `analysis/10-recommendation.md` is **option A: CLI-first with agent affordances**, with the honest counter-case for the schema-first option B addressed directly rather than dismissed. The decision turns on team-scale fit, ecosystem continuity, and the Kraken-pattern precedent for process-enforced schema discipline at comparable scale. It is a researched recommendation, not a consensus finding; §3 of `10-recommendation.md` states the strongest case for the alternative, and §5 names the conditions under which the recommendation should be revisited.
 
 ## Licensing
 

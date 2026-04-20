@@ -23,3 +23,6 @@ node_modules/
 target/
 dist/
 build/
+
+# Internal-only working notes (not for publication)
+analysis/internal/
