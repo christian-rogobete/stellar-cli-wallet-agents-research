@@ -1,0 +1,24 @@
+Requirements:
+
+- self custody wallet controlled by the ai agent, (key isolation)
+- send payments on chain
+- pay for external services via x402 ( consume and possibly provide paid APIs with x402)
+- configurable spending limits (e.g. per transaction)
+- trading
+- skills (+ skill extensibility)
+- balances
+- get wallet address
+- wallet companion UI
+- json output for commands --json (for machine-readable output) - Every command supports -- json. No screen-scraping, no regex on table borders. (see kraken cli)
+- Humans benefit from the same design: --output table renders clean tables
+- macos + linux support
+- pre-build binaries available on github releases page
+- error envelopes, predictable exit codes (see kraken cli) 
+- Built-in MCP server. Native Model Context Protocol support over stdio. No subprocess wrappers needed. (see kraken cli)
+- orderbook
+- config file, environment variables
+- testnet, mainnet support
+- G account support, C smart accounts support (OpenZepelin)
+- funding via wallet companion UI (Stellar wallet kit, wallet connect)
+- subaccounts (derived from mnemonic)
+- setup wizzard

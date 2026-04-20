@@ -1,0 +1,25 @@
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# Editor backups and swap files
+*~
+*.bak
+*.swp
+*.swo
+.#*
+\#*\#
+
+# IDE directories
+.vscode/
+.idea/
+
+# Local overrides
+.env
+.env.local
+
+# Build and dependency directories (defensive; no code in this repo)
+node_modules/
+target/
+dist/
+build/
