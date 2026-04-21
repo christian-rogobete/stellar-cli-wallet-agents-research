@@ -1,6 +1,6 @@
 # Requirements
 
-**Status:** populated (seed pass complete) — 2026-04-18
+**Status:** stable — 2026-04-21. Vocabulary locked; 214 REQs (108 main + 106 addendum); full-format expansion of new addendum entries deferred (addendum §7).
 **Depends on:** `01-actor-model.md`, `02-threat-model.md`, `research/external/**`, `research/stellar-capabilities/**`
 **Loop partners:** both research streams
 
@@ -30,17 +30,24 @@ A requirement with no source is a **gap**, not a requirement. Gaps live in §0.3
 
 ### 0.3 Gaps queue
 
-Requirements drafted but not yet cited. Each entry is a research task. Drain by finding or producing a source, then relocating into the appropriate section below.
+Open research tasks: draft requirements without a citeable source. Drain by finding or producing a source, then relocating into the appropriate section below. Fully drained gaps are logged in §0.3.1 for provenance.
 
 | ID | Draft requirement | Why it needs a source | Target research area |
 |---|---|---|---|
-| G1 | Concrete SEP-10 ephemeral-key management on the wallet side (auth-only keypair lifecycle, separation from signing key). | A3 implies the need; no tier-1/tier-2 candidate demonstrates a usable shape. | `research/stellar-capabilities/05-seps.md` |
 | G2 | Whether the wallet owns the x402 payment-requirements cache, or defers to the calling HTTP client. | Pattern is young; no candidate ships a local cache design. | Stream-2 + SDF x402-MCP follow-up |
-| G3 | Minimum-reserve guard arithmetic: exact reserve model the wallet refuses to cross, given subentries and sponsored reserves. | T6 names the defence; arithmetic belongs to a capability spec. | `research/stellar-capabilities/01-accounts.md` |
-| G4 | Subaccount semantics — BIP-44 derivation path shape for Stellar (SLIP-10 ed25519) vs. C-account deployment per child. | `research/brain-dump/requirements.md:23` mixes both; each has different delegation properties. | `research/stellar-capabilities/01-accounts.md` + `04-smart-accounts.md` |
-| G5 | Concrete signer-plugin interface (credential-process-shaped) covering Ledger, passkey, TEE, and OS-keyring backends. | AWS `credential_process` is the shape; Stellar bindings need a capability note. | `research/stellar-capabilities/01-accounts.md` |
-| G6 | Policy-mutation audit-chain format (hash-chained JSONL vs. signed append-only log). | T8/T9 demand tamper-evident policy history; no candidate ships it. | Stream-2 + audit design |
-| G7 | Sequence-pool behaviour under re-org / fee-bump / `txBadSeq`. | LaunchTube has the primitive; the in-process version needs failure-mode semantics. | `research/stellar-capabilities/08-infra-ops.md` |
+| G3 (narrowed) | CAP-0073 arithmetic finalisation for the minimum-reserve guard after the Protocol 26 mainnet vote (2026-05-06). Per-capability arithmetic is folded into `REQ-sec-policy-minimum-reserve` via the addendum §1 merge log (stream-2 sources from `01-accounts.md`, `02-classic-ops.md`, `07-dex-amm.md`). | CAP-0073 may alter the final reserve model; the wallet-side arithmetic has to follow. | `research/stellar-capabilities/01-accounts.md` + CAP-0073 tracker |
+| G7 (narrowed) | Sequence-pool behaviour under re-org and `txBadSeq` recovery. Fee-bump interaction is drained by `REQ-perf-fee-bump` (addendum §4). | The in-process sequence pool still needs documented re-org and seq-err recovery semantics. | `research/stellar-capabilities/08-infra-ops.md` |
+
+### 0.3.1 Drain log
+
+Gaps fully closed by requirements elsewhere in this file or in `03-requirements-addendum.md`.
+
+| Gap ID | Original draft | Drained by | Date |
+|---|---|---|---|
+| G1 | SEP-10 ephemeral-key management on the wallet side. | `REQ-sep-sep10-ephemeral` | 2026-04-21 |
+| G4 | Subaccount semantics — BIP-44 derivation vs. C-account-per-child. | `REQ-acct-derivation-sep05` + `REQ-acct-subaccount-isolation` (addendum §3 split) | 2026-04-21 |
+| G5 | Signer-plugin interface (credential-process-shaped). | `REQ-acct-signer-plugin` (interface shape) + `REQ-acct-hardware-signer` (Ledger) + `REQ-acct-keyring-first` (OS-keyring); passkey / TEE backends land through the plugin | 2026-04-21 |
+| G6 | Policy-mutation audit-chain format. | `REQ-sec-audit-log-signed` (hash-chained format chosen) | 2026-04-21 |
 
 ### 0.4 Candidates queue
 
@@ -57,7 +64,7 @@ Items surfaced by research (external or Stellar capability) that may become requ
 | C7 | Seven-sub-spec modular-profile declaration à la OWS. | `research/external/crypto/moonpay-agents-ows.md#9` | NICE | useful for interoperability narrative, low v1 cost |
 | C8 | Delegation-as-TEE-re-provisioning for A2/A4. | `research/external/_tier-2/crypto/privy.md#9` | OUT | requires TEE dependency conflicting with N1 posture |
 | C9 | `raw_sign` primitive for out-of-band payload signing (SEP-45 server-side, custom flows). | inferred from Privy, Fireblocks | NICE | reject unless a named caller demands it — policy cannot reason about raw bytes (T2) |
-| C10 | Multi-endpoint RPC cross-check for high-value actions (T7 defence). | `02-threat-model.md#T7` | SHOULD | promote once RPC config shape settles |
+| C10 | Multi-endpoint RPC cross-check for high-value actions (T7 defence). | `02-threat-model.md#T7` | SHOULD | **resolved → `REQ-sec-rpc-crosscheck`** (addendum §4) |
 | C11 | Router / multicall contract to bundle invocations under one approval. | `research/external/stellar-ecosystem/meridian-pay.md#9` | NICE | review after A4 approval flow designed |
 | C12 | Dedicated testnet marker printed on every response (not just network name). | `research/external/crypto/kraken-cli.md#9` ("paper mode" parallel) | SHOULD | merge into REQ-ux-network-marker design once UX locks |
 
@@ -142,7 +149,7 @@ One requirement per heading. Atomic: no compound statements joined by "and." If 
 - **Classification:** MUST
 - **Actors:** A2, A5
 - **Sources:** `research/brain-dump/requirements.md:23`, A2 ("Must-have capabilities"), `research/external/_tier-2/crypto/tether-wdk.md#10` (anti-pattern: treating same-seed BIP-44 as delegation)
-- **Rationale:** A2 needs a scalable supply of addresses; deterministic derivation survives device loss given the mnemonic. See G4 for open question on whether C-account deployment per child is preferred for true delegation.
+- **Rationale:** A2 needs a scalable supply of addresses; deterministic derivation survives device loss given the mnemonic. C-account-per-child delegation is covered separately by `REQ-acct-subaccount-isolation` (addendum §3); G4 drained (§0.3.1).
 - **Acceptance signal:** Derive address at index `i` reproducibly from the same mnemonic across reinstalls; documented path string present in output.
 
 #### REQ-acct-address-export: Expose account address as a first-class read
@@ -221,7 +228,7 @@ One requirement per heading. Atomic: no compound statements joined by "and." If 
 - **Actors:** A1, A2
 - **Sources:** `research/external/_tier-2/stellar-ecosystem/launchtube.md#9`, `analysis/00-context.md#5.4`
 - **Rationale:** LaunchTube is being discontinued and its self-hosted replacement is likely AGPL-3.0; shipping the primitive in-process both removes a dependency and positions the wallet cleanly against the SDF track 2 migration.
-- **Acceptance signal:** Submit 50 transactions per minute from a single identity without `txBadSeq` errors using deterministic key derivation; documented failure-mode semantics per G7.
+- **Acceptance signal:** Submit 50 transactions per minute from a single identity without `txBadSeq` errors using deterministic key derivation; documented re-org and `txBadSeq` recovery semantics (G7 narrowed; fee-bump covered by `REQ-perf-fee-bump`).
 
 ### 1.3 Soroban operations
 
@@ -356,7 +363,7 @@ One requirement per heading. Atomic: no compound statements joined by "and." If 
 - **Statement:** The wallet supports using an ephemeral keypair for SEP-10 auth-only operations without funding or exposing it as a signing identity.
 - **Classification:** SHOULD
 - **Actors:** A3
-- **Sources:** A3 ("ephemeral keys for auth-only operations"), G1
+- **Sources:** A3 ("ephemeral keys for auth-only operations"); G1 drained here (see §0.3.1)
 - **Rationale:** The signing key should not be linkable to every provider the agent auths to.
 - **Acceptance signal:** SEP-10 auth flow succeeds using a keypair that does not appear as a balance-holding identity and is not persisted past the session.
 
@@ -539,7 +546,7 @@ One requirement per heading. Atomic: no compound statements joined by "and." If 
 - **Classification:** SHOULD
 - **Actors:** A1, A5
 - **Sources:** T6, `02-threat-model.md#T6` defences
-- **Rationale:** A classic footgun: draining the base reserve renders the account unusable. See G3 for exact arithmetic.
+- **Rationale:** A classic footgun: draining the base reserve renders the account unusable. Per-capability arithmetic (base reserves, Soroban footprints, LP / DEX state) is absorbed into this REQ via the addendum §1 merge log (stream-2 sources from `01-accounts.md`, `02-classic-ops.md`, `07-dex-amm.md`); CAP-0073 final reserve model tracked in G3 (narrowed).
 - **Acceptance signal:** A payment that would drop the source below base reserve is rejected pre-signing with a dedicated error code.
 
 #### REQ-sec-policy-signed: Policy file is signed and verified
@@ -674,8 +681,8 @@ One requirement per heading. Atomic: no compound statements joined by "and." If 
 - **Statement:** The audit log is append-only with each entry cryptographically chained to its predecessor.
 - **Classification:** SHOULD
 - **Actors:** A1, A2, A7
-- **Sources:** T8, G6
-- **Rationale:** Tamper-evidence is what makes the audit log useful for post-incident analysis; see G6 for format choice.
+- **Sources:** T8; G6 drained here (see §0.3.1)
+- **Rationale:** Tamper-evidence is what makes the audit log useful for post-incident analysis. Hash-chained format chosen — drains G6.
 - **Acceptance signal:** Modifying any past audit entry breaks chain verification.
 
 #### REQ-sec-short-unlock: Short in-memory unlock windows
@@ -1097,7 +1104,7 @@ Mirrors `02-threat-model.md#2.2`. Listed here so RFP readers see non-goals direc
 | 18 | testnet + mainnet support | → REQ-plat-testnet-mainnet-parity (restates N6; kept because it is the operational-level statement) |
 | 19 | G-account + C-smart-account support | **split**: G-account is implicit across REQ-classic-*; C-account → REQ-sa-c-account-support + REQ-sa-policy-initiated-exec + REQ-sa-webauthn-signer + REQ-sa-guard-hooks |
 | 20 | funding via companion UI (Stellar Wallet Kit, WalletConnect) | **merged into** REQ-ux-companion-ui + REQ-sep-sep43-walletkit |
-| 21 | subaccounts (derived from mnemonic) | → REQ-acct-subaccounts (+ G4 for C-account-per-child semantics) |
+| 21 | subaccounts (derived from mnemonic) | → REQ-acct-subaccounts (+ REQ-acct-subaccount-isolation for C-account-per-child, addendum §3; G4 drained) |
 | 22 | setup wizard | → REQ-ux-setup-wizard |
 
 **Disposition summary:** 22 source bullets; 18 converted (some with splits); 4 split into multiple requirements; 1 rejected-partially (bullet 01) with the justification that it restates non-negotiables.
@@ -1108,5 +1115,5 @@ Mirrors `02-threat-model.md#2.2`. Listed here so RFP readers see non-goals direc
 - Every `MUST` requires a rationale of at least one sentence.
 - Do not use the word "comprehensive" (project convention).
 - Do not insert emojis (project convention).
-- Current date stamp on edits: 2026-04-20.
-- Stream-2 reconciliation is captured in the **addendum at `analysis/03-requirements-addendum.md`** (compact form — 36 merges, 2 splits, 85 adds, 1 promotion, 1 candidates-queue resolution; total ~193 requirements). Downstream analysis docs cite requirements by the IDs in the addendum alongside the IDs in this file. Full-format expansion of new entries is deferred.
+- Current date stamp on edits: 2026-04-21.
+- Stream-2 reconciliation is captured in the **addendum at `analysis/03-requirements-addendum.md`** (compact form — 36 merges, 2 splits, 106 adds, 2 promotions, 1 candidates-queue resolution; total 214 requirements). Downstream analysis docs cite requirements by the IDs in the addendum alongside the IDs in this file. Full-format expansion of new entries is deferred.

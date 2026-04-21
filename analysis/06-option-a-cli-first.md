@@ -1,6 +1,6 @@
 # Option A: CLI-first with agent affordances
 
-**Status:** draft — 2026-04-18
+**Status:** draft — 2026-04-21
 **Audience:** RFP Track delegates
 **Depends on:** `00-context.md`, `01-actor-model.md`, `02-threat-model.md`, `03-requirements.md`, `research/external/_summary.md`
 
@@ -63,7 +63,7 @@ Vocabulary is the **union** of patterns converged across the strongest agent-ori
 - **Fail-closed executable policy plugin** with 5-second timeout (MoonPay OWS escape hatch) for rules the declarative layer cannot express; shipped as a skill, not the first answer.
 - **Dangerous-tool gate with `acknowledged=true`** + fail-closed argv filter (Kraken, `kraken-cli.md` §9; REQ-sec-dangerous-tool-gate).
 
-Policy files are **signed by the owner identity** (REQ-sec-policy-signed; `_tier-2/crypto/privy.md` §9 `owner_id`); mutations require owner signature (REQ-sec-policy-mutation-governance); denials are logged with the draft they refused (REQ-audit-policy-denials). The minimum-reserve guard refuses to cross `2 + (base_reserve * subentries)` XLM (REQ-sec-policy-minimum-reserve; pending G3).
+Policy files are **signed by the owner identity** (REQ-sec-policy-signed; `_tier-2/crypto/privy.md` §9 `owner_id`); mutations require owner signature (REQ-sec-policy-mutation-governance); denials are logged with the draft they refused (REQ-audit-policy-denials). The minimum-reserve guard refuses to cross `2 + (base_reserve * subentries)` XLM (REQ-sec-policy-minimum-reserve; pending CAP-0073 arithmetic finalisation, G3 narrowed).
 
 ### 3.3 Smart-account delegation
 

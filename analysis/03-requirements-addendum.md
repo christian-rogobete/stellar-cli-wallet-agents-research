@@ -1,7 +1,7 @@
 # 03-requirements — stream-2 reconciliation addendum
 
 **Addendum to** `analysis/03-requirements.md`
-**Status:** 2026-04-20 — compact patch log
+**Status:** 2026-04-21 — compact patch log + gap drain
 **Reason for addendum-not-inline:** Two full-rewrite agent passes of the main file (~191 entries) hit tool-call size limits. This addendum records the stream-2 reconciliation as a patch log in compact form (REQ-ID + classification + actors + sources + one-line statement); the canonical full-format expansion of new entries is a follow-up task when single-file writes of that size are reliable. Downstream documents (decision matrix, recommendation) cite requirements by their final IDs as listed here.
 
 ---
@@ -233,6 +233,21 @@ Also deferred:
 - Applying each merge's source-addition to the existing entries in the main `03-requirements.md` (the merge log above is the canonical record; the file edits are housekeeping).
 - Updating `analysis/08-option-c-layered.md` §11 with stable REQ-IDs now that the vocabulary is locked. The entries to cite there are `REQ-sor-policy-contract-pinning`, `REQ-sec-audit-log-signed`, `REQ-ux-mcp-tool-annotations`, `REQ-ux-json-envelope`, `REQ-sep-sep43-walletkit`, `REQ-sep-48-typed-preview`, and the extensibility requirements (`REQ-ext-skill-audit-gate`, `REQ-sec-skill-signed`).
 
+## 9. Gap drain (2026-04-21)
+
+Provenance pointers for the `03-requirements.md` §0.3 gaps queue. Drained gaps moved to main-file §0.3.1; narrowed gaps stay in §0.3 with reduced scope.
+
+| Gap ID | Original draft | Status | Drained by |
+|---|---|---|---|
+| G1 | SEP-10 ephemeral-key management | **drained** | `REQ-sep-sep10-ephemeral` (main file) |
+| G3 | Minimum-reserve guard arithmetic | **narrowed** | Per-capability arithmetic absorbed into `REQ-sec-policy-minimum-reserve` via §1 merge log (stream-2 sources from `01-accounts.md`, `02-classic-ops.md`, `07-dex-amm.md`); CAP-0073 mainnet vote (2026-05-06) pending for final reserve model |
+| G4 | BIP-44 derivation vs. C-account-per-child | **drained** | §3 split: `REQ-acct-derivation-sep05` + `REQ-acct-subaccount-isolation` |
+| G5 | Signer-plugin interface (credential-process shape) | **drained** | `REQ-acct-signer-plugin` (interface) + `REQ-acct-hardware-signer` (Ledger) + `REQ-acct-keyring-first` (OS-keyring); passkey / TEE backends via the plugin |
+| G6 | Policy-mutation audit-chain format | **drained** | `REQ-sec-audit-log-signed` (main file) — hash-chained format chosen |
+| G7 | Sequence-pool behaviour under re-org / fee-bump / `txBadSeq` | **narrowed** | Fee-bump covered by `REQ-perf-fee-bump` (§4); re-org and `txBadSeq` recovery semantics remain open |
+
+G2 (x402 payment-requirements cache) remains fully open; no REQ yet.
+
 ## 8. Date
 
-2026-04-20. Main file date stamp (bottom of `03-requirements.md` §Appendix B) should be updated from 2026-04-18 to 2026-04-20 in a separate pass.
+2026-04-21. Main file date stamp (bottom of `03-requirements.md` §Appendix B) updated to 2026-04-21 in this pass.

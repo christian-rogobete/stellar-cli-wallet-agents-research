@@ -1,6 +1,6 @@
 # Option B: agent-protocol-first with a CLI surface
 
-**Status:** draft — 2026-04-18
+**Status:** draft — 2026-04-21
 **Audience:** RFP Track delegates
 **Depends on:** `00-context.md`, `01-actor-model.md`, `02-threat-model.md`, `03-requirements.md`, `research/external/_summary.md`
 
@@ -116,8 +116,8 @@ Two-layer config: non-secret TOML at `$XDG_CONFIG_HOME/stellar-ai/` mode `0o700`
 ## 5. Per-actor surface (A1-A7)
 
 - **A1 (unattended daemon).** Library (embedded) or MCP (subprocess). Local policy engine with per-tx, per-period, counterparty, and rate-limit rules. Hash-chained audit log (`REQ-sec-audit-log-signed`). Idempotency keys on mutations (`REQ-ux-idempotency-key`). In-process sequence pool.
-- **A2 (orchestrator).** C-account with module-attached policy; expiring session signers per sub-agent; synchronous revocation (`REQ-sa-revocation-takes-effect-before-next-sig`). Subaccount derivation (`REQ-acct-subaccounts`) for sub-agents needing independent G-accounts (G4 tracks derivation choice).
-- **A3 (service consumer).** x402 via `stellar_x402_simulate`/`stellar_x402_commit` (`REQ-svc-x402-consume`, `REQ-svc-x402-nonce-binding`); MPP charge and channel modes via dedicated MPP tool schemas (`REQ-svc-mpp-charge`, `REQ-svc-mpp-channel`, `REQ-svc-mpp-policy-gating`, `REQ-svc-mpp-x402-coexistence`). SEP-10 client with ephemeral auth-only keypairs (G1). Counterparty allowlists anchored on SEP-10 identity or home domain.
+- **A2 (orchestrator).** C-account with module-attached policy; expiring session signers per sub-agent; synchronous revocation (`REQ-sa-revocation-takes-effect-before-next-sig`). Subaccount derivation (`REQ-acct-subaccounts`) for sub-agents needing independent G-accounts; BIP-44 derivation via `REQ-acct-derivation-sep05` and per-sub-agent independent keypairs via `REQ-acct-subaccount-isolation` (addendum §3).
+- **A3 (service consumer).** x402 via `stellar_x402_simulate`/`stellar_x402_commit` (`REQ-svc-x402-consume`, `REQ-svc-x402-nonce-binding`); MPP charge and channel modes via dedicated MPP tool schemas (`REQ-svc-mpp-charge`, `REQ-svc-mpp-channel`, `REQ-svc-mpp-policy-gating`, `REQ-svc-mpp-x402-coexistence`). SEP-10 client with ephemeral auth-only keypairs (`REQ-sep-sep10-ephemeral`). Counterparty allowlists anchored on SEP-10 identity or home domain.
 - **A4 (user-facing).** Companion UI as async approval channel (`REQ-ux-companion-ui`); WalletConnect when the user runs a separate mobile wallet. Approval envelopes nonce-bound; novel fields highlighted. Passkey signer on a C-account. OZ `Policy::enforce()` is synchronous-only during `__check_auth` and cannot pause for an out-of-band human ack; the wallet-owned approval channel compensates by collecting the human-approval signal off-chain before submission and embedding it into the auth payload, with a custom policy attached to the rule rejecting the invocation if the signal is absent or stale.
 - **A5 (CI/CD).** CLI usually primary. Non-interactive unlock, env-var config, structured logs, dry-run on every mutation. Because the CLI is a schema projection, CI never gets behaviour the spec does not define.
 - **A6 (read-mostly).** MCP server with read-only subset only (`REQ-ux-mcp-read-write-groups`); signing unreachable. Reads work without any signing identity (`REQ-obs-no-key-required`). Soroban events as NDJSON on stdout (C6).
