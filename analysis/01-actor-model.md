@@ -37,7 +37,7 @@ These dimensions are orthogonal in principle and all are used in the requirement
 
 **Blast radius.** Should be bounded by policy to the allocated budget, regardless of agent behaviour. Host compromise is still total loss.
 
-**Must-have capabilities.** Enforceable spending limits (per-tx, per-period, per-counterparty), auditable log of what was signed and why, graceful degradation when the policy denies (actionable error, not a crash), SEP-10 client flows for paid services, x402 support, MPP support (charge mode and, when the formal channel spec lands, channel mode).
+**Must-have capabilities.** Enforceable spending limits (per-tx, per-period, per-counterparty), auditable log of what was signed and why, graceful degradation when the policy denies (actionable error, not a crash), SEP-10/-45 client flows for paid services, x402 support, MPP support (charge mode and, when the formal channel spec lands, channel mode).
 
 **Uncomfortable failure mode.** Prompt-injection via an RAG document or email causes the agent to draft a transaction that drains the budget to an attacker address. Policy must catch this without human intervention.
 
@@ -61,9 +61,9 @@ These dimensions are orthogonal in principle and all are used in the requirement
 
 ---
 
-### A3. Service-consumer agent (x402 / MPP / SEP-10)
+### A3. Service-consumer agent (x402 / MPP / SEP-10/-45)
 
-**Example.** An agent that buys API calls, compute minutes, or data on the user's behalf from a marketplace of service providers. Authentication via SEP-10; payment via one of the HTTP-402-based agentic-payment protocols (x402 or MPP) or direct on-chain transfer.
+**Example.** An agent that buys API calls, compute minutes, or data on the user's behalf from a marketplace of service providers. Authentication via SEP-10 (G-account) or SEP-45 (C-account); payment via one of the HTTP-402-based agentic-payment protocols (x402 or MPP) or direct on-chain transfer.
 
 **Host reality.** Usually the same host as its parent agent (A1); sometimes a dedicated process.
 
@@ -73,7 +73,7 @@ These dimensions are orthogonal in principle and all are used in the requirement
 
 **Blast radius.** Per-counterparty caps are the main defence; allowlisting by category or SEP-10 identity is preferable to static destination allowlists.
 
-**Must-have capabilities.** Native x402 flow (prepare-payment, pay, receipt); MPP charge and channel modes (see `research/stellar-capabilities/10-mpp.md`); SEP-10 client including ephemeral keys for auth-only operations; receipts correlated with off-chain invoices.
+**Must-have capabilities.** Native x402 flow (prepare-payment, pay, receipt); MPP charge and channel modes (see `research/stellar-capabilities/10-mpp.md`); SEP-10/-45 client including ephemeral keys for auth-only operations; receipts correlated with off-chain invoices.
 
 **Uncomfortable failure mode.** A provider impersonates another provider via lookalike domains or metadata. The wallet must support identity-anchored policy (toml-verified home domain, known issuer), not just address-based allowlists.
 
@@ -117,7 +117,7 @@ These dimensions are orthogonal in principle and all are used in the requirement
 
 ### A6. Read-mostly research and indexer agent
 
-**Example.** An agent that watches chain state, pays small fees occasionally for Soroban simulation or archive access, and otherwise does not transact.
+**Example.** An agent that watches chain state, occasionally pays paid-indexer or paid-RPC vendor fees when deep history or high query throughput is needed, and otherwise does not transact. Chain-level fees are rare.
 
 **Host reality.** Long-running service. Often does not need to hold significant balance; pays from a tiny topped-up hot account.
 
@@ -157,7 +157,7 @@ These dimensions are orthogonal in principle and all are used in the requirement
 |---|---|---|---|---|---|---|
 | A1 | Automation daemon | Unattended | Frequent, bounded | VPS/home server, disk-stored | Receives budget | Enforced local policy |
 | A2 | Multi-agent orchestrator | Unattended | Frequent, per-child-bounded | Root key on orchestrator | Scoped delegation to sub-agents | Subaccounts + on-chain policy |
-| A3 | Service-consumer agent | Semi-attended | Frequent, tiny, variable counterparty | Same as parent | Receives scoped budget | x402 / MPP / SEP-10 identity policy |
+| A3 | Service-consumer agent | Semi-attended | Frequent, tiny, variable counterparty | Same as parent | Receives scoped budget | x402 / MPP / SEP-10/-45 identity policy |
 | A4 | User-facing assistant | Semi-attended | Mixed | User device | Receives capped authority | Async human-approval channel |
 | A5 | CI/CD deploy agent | Unattended | Infrequent, high-value | Ephemeral, env-injected | Narrow scope | Non-interactive, dry-run, idempotency |
 | A6 | Read-mostly research | Unattended | Rare, trivial | Often none | None | Read path with no key required |
