@@ -202,7 +202,7 @@ One requirement per heading. Atomic: no compound statements joined by "and." If 
 - **Actors:** A1, A5
 - **Sources:** T3, A5 ("idempotent operations with explicit sequence-number handling"), `research/external/_tier-2/stellar-ecosystem/launchtube.md#9`
 - **Rationale:** A1 and A5 both operate unattended and must budget for network congestion; surfacing the estimate separately from the submit is what makes policy evaluation possible.
-- **Acceptance signal:** `simulate` returns fee; `submit` uses the same fee or a fee-bump envelope; re-run after network congestion shift produces a different estimate.
+- **Acceptance signal:** The pre-submission / build step returns fee as a first-class field; `submit` uses the same fee or a fee-bump envelope; re-run after network congestion shift produces a different estimate.
 
 #### REQ-classic-memo: Display and require memo when receiver demands it
 
@@ -255,7 +255,7 @@ One requirement per heading. Atomic: no compound statements joined by "and." If 
 - **Classification:** SHOULD
 - **Actors:** A2, A3
 - **Sources:** `research/external/stellar-ecosystem/freighter-walletkit.md#9` (SEP-43 + WC gaps), A3 (x402 flow), T4
-- **Rationale:** x402, delegation to sub-agents, and multi-party Soroban transactions all depend on this primitive; the incumbent WalletConnect Stellar module lacks it.
+- **Rationale:** x402, delegation to sub-agents, and multi-party Soroban transactions all depend on this primitive; Creit's Stellar Wallets Kit WalletConnect module rejects it as a named method (`freighter-walletkit.md` §9-10).
 - **Acceptance signal:** Produce a valid `SorobanAuthorizationEntry` signature that is accepted by a separate submitter process; entry is scoped to the given invocation and nonce.
 
 #### REQ-sor-deploy: Deploy Soroban contract
@@ -309,8 +309,8 @@ One requirement per heading. Atomic: no compound statements joined by "and." If 
 - **Statement:** The wallet's C-account template supports WebAuthn (passkey) as a signer kind.
 - **Classification:** SHOULD
 - **Actors:** A4
-- **Sources:** `research/external/stellar-ecosystem/meridian-pay.md#9` (custom `__check_auth` WebAuthn baseline)
-- **Rationale:** A4 (user-facing assistant) is the actor most served by biometric approval; Meridian Pay's ~100 LOC starting point is a concrete reference.
+- **Sources:** `research/external/stellar-ecosystem/smart-account-kit.md#9` (SAK + KMP `OZSmartAccountKit` WebAuthn verifier path, primary); `research/external/stellar-ecosystem/meridian-pay.md#9` (custom `__check_auth` WebAuthn baseline, minimalism reference)
+- **Rationale:** A4 (user-facing assistant) is the actor most served by biometric approval. Primary references: SAK and KMP `OZSmartAccountKit`, both driving the OZ-contract secp256r1 WebAuthn verifier across browser (SAK) and Android / iOS / macOS / Web (KMP). Meridian Pay's ~100 LOC single-file account remains useful as a minimalism reference for what `__check_auth` can look like without OZ.
 - **Acceptance signal:** A passkey on a user device signs a C-account invocation; the signature is verified on-chain without a G-account keypair in the flow.
 
 #### REQ-sa-revocation-takes-effect-before-next-sig: Revocation is synchronous
